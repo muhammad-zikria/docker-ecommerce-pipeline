@@ -66,4 +66,4 @@ This pipeline is defined in the `docker-compose.yaml` file and consists of three
         * **Password:** `root`
     * Click **Save**. You can now browse the `ecommerce` database and see your `orders` table populated with data
 
-![alt text](image.png)
+<img width="1918" height="893" alt="Screenshot 2025-11-13 174659" src="https://github.com/user-attachments/assets/5932f4e9-01b1-4b9f-9f2c-98784cd8660c" />
