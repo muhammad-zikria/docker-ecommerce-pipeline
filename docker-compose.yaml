@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+  
+  # Service 1: The PostgreSQL Database
+  pg-ecommerce-db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=ecommerce
+    volumes:
+      - "./ecommerce-data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    networks:
+      - data-network
+      
+  # Service 2: The Python Ingestion Script
+  ingest-service:
+
+    build: .
+    
+    # Passing arguments to Python script
+    command:
+      - --user=root
+      - --password=root
+      - --host=pg-ecommerce-db
+      - --port=5432
+      - --db=ecommerce
+      - --table_name=orders
+      - --csv_name=olist_orders_dataset.csv
+    
+    volumes:
+      - "./:/app"
+      
+    # Connecting to the same network as the database
+    networks:
+      - data-network
+      
+    depends_on: 
+      - pg-ecommerce-db
+
+  # Service 3: pgAdmin for Database Management
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"
+    networks:
+      - data-network
+    depends_on:
+      - pg-ecommerce-db
+
+# Defining the network
+networks:
+  data-network:
+    driver: bridge
+
+
+volumes:
+  ecommerce-data:

@@ -1,0 +1,8 @@
+# Ignore the persistent database data
+ecommerce-data/
+
+# Ignore all CSV data files
+*.csv
+
+# Ignore Python cache
+__pycache__/
